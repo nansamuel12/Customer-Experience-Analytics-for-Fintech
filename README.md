@@ -20,11 +20,16 @@ The workflow covers:
 - `scripts/`
   - `scrape_reviews.py` – scrape Google Play reviews for the three banks
   - `preprocess_reviews.py` – clean and normalize review data
-  - `load_to_postgres.py` – load cleaned data into PostgreSQL
+  - `load_to_postgres.py` – load cleaned data into PostgreSQL (3 separate databases)
+  - `setup_databases.py` – automated database creation and schema setup
+  - `nlp_preprocessing.py` – NLP preprocessing (tokenization, lemmatization, stop-word removal)
+  - `keyword_extraction.py` – keyword/n-gram extraction using TF-IDF and spaCy
 - `sql/`
   - `schema.sql` – PostgreSQL schema (database + tables)
 - `analysis/`
+  - `theme_analysis.py` – comprehensive theme, pain point, and driver analysis
   - `insights_and_visuals.py` – sentiment, insights, and visualizations
+  - `NLP_MODULE_README.md` – detailed NLP module documentation
 
 ## Google Play App IDs
 
@@ -61,10 +66,40 @@ The workflow covers:
    python scripts/load_to_postgres.py
    ```
 
-5. Run Task 4 (insights & visuals) on the `task-4` branch:
+5. Download spaCy language model for NLP analysis:
+
+   ```bash
+   python -m spacy download en_core_web_sm
+   ```
+
+6. Run NLP theme analysis to identify pain points and positive drivers:
+
+   ```bash
+   python analysis/theme_analysis.py
+   ```
+
+   This generates detailed reports in `analysis/reports/` including:
+   - Individual bank theme analysis reports
+   - Cross-bank comparison report
+   - CSV exports of keywords, pain points, and positive drivers
+
+7. Run Task 4 (insights & visuals):
 
    ```bash
    python analysis/insights_and_visuals.py
    ```
+
+## NLP Analysis Features
+
+The project includes advanced NLP capabilities:
+
+- **Tokenization & Preprocessing**: Clean text, remove stop-words, lemmatize tokens
+- **TF-IDF Keyword Extraction**: Identify statistically significant terms (unigrams, bigrams, trigrams)
+- **N-gram Analysis**: Extract common 2-word and 3-word phrases
+- **spaCy Noun Phrases**: Linguistic pattern-based phrase extraction
+- **Pain Point Detection**: Analyze negative reviews (rating ≤ 3) to identify problems
+- **Positive Driver Detection**: Analyze positive reviews (rating ≥ 4) to identify strengths
+
+See `analysis/NLP_MODULE_README.md` for detailed documentation and usage examples.
 
 See in-code docstrings and comments for more details on parameters and behavior.

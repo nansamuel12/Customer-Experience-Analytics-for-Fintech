@@ -8,3 +8,6 @@ seaborn
 nltk
 wordcloud
 python-dotenv
+spacy
+scikit-learn
+textblob
