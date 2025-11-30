@@ -1,0 +1,10 @@
+google-play-scraper
+pandas
+numpy
+psycopg2-binary
+SQLAlchemy
+matplotlib
+seaborn
+nltk
+wordcloud
+python-dotenv
