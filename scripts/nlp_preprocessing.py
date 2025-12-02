@@ -30,7 +30,11 @@ def download_nltk_resources():
 
 
 # Initialize resources
-download_nltk_resources()
+try:
+    download_nltk_resources()
+except Exception as e:
+    print(f"Warning: Failed to download/verify NLTK resources: {e}")
+    print("Proceeding without full NLTK support (lemmatization may be disabled).")
 
 # Load spaCy model (use small English model)
 try:
@@ -176,7 +180,12 @@ class NLPPreprocessor:
 
             # Lemmatize
             if self.lemmatize and self.lemmatizer:
-                token = self.lemmatizer.lemmatize(token)
+                try:
+                    token = self.lemmatizer.lemmatize(token)
+                except Exception:
+                    # If lemmatization fails (e.g. corrupt resource), disable it
+                    self.lemmatize = False
+                    print("Warning: Lemmatization failed. Disabling for this session.")
 
             processed_tokens.append(token)
 
